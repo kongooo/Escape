@@ -52,7 +52,7 @@ public class ClickManager : MonoBehaviour {
 
     public bool[] isActive;
 
-    private bool isEnd=false;
+    public bool isEnd=false;
 
     
 
@@ -127,9 +127,9 @@ public class ClickManager : MonoBehaviour {
                     GameManager._Instance.nine = 0;
                     break;
                 case "tuichu":
-                    if (isEnd == false)               //游戏结束按R键无法返回
+                    if (isEnd == false)               
                     {                       
-                            SetEnableCamera(cameras, 0);
+                       SetEnableCamera(cameras, 0);
                     }
                     break;
                 case "HuoPen":

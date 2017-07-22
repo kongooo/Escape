@@ -28,9 +28,8 @@ public class Pos : MonoBehaviour {
         camera = ClickManager._Instance.FindEnableCamera(Camera.allCameras).transform;
         transform.SetParent(camera.transform);
         transform.localPosition = new Vector3(-7f, -3.2f, 10);
-        if (transform.parent == main.transform)
-        {
-            
+        if (transform.parent == main.transform||ClickManager._Instance.isEnd==true)
+        {          
             var spr= gameObject.GetComponent<SpriteRenderer>();
             var co = spr.color;
             co.a = 0;
