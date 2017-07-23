@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Assets\grid.cs" />
     <Compile Include="Assets\LoadPath.cs" />
+    <Compile Include="Assets\manage.cs" />
     <Compile Include="Assets\Scripts\AI\blinkyBaseState.cs" />
     <Compile Include="Assets\Scripts\AI\BlinkyClass.cs" />
     <Compile Include="Assets\Scripts\AI\Xunluo.cs" />

@@ -9,7 +9,7 @@ public class GhostMove : MonoBehaviour {
 
 	public float speed = 0.3f;
 	
-	// Update is called once per frame
+	
 	void FixedUpdate () {
 
 		//数组设置关键点，实现敌人的移动

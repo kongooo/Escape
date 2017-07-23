@@ -3,18 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlinkyClass : MonoBehaviour {
+public class BlinkyClass {
 
-    
+    blinkyBaseState _state;
 
+    public BlinkyClass()
+    {
+        _state = new Xunluo(this);
+    }
     
-    void Start () {
-		
-	}
+    public void SetBlinkyState(blinkyBaseState newstate)
+    {
+        _state = newstate;
+    }
 	
-	
-	void Update () {
-		
+	public void update () {
+        _state.myupdate();
+        _state.ChangeState();
 	}
 
     

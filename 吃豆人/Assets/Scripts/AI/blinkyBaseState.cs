@@ -4,7 +4,7 @@ using UnityEngine;
 
 public  interface blinkyBaseState
 {
-    void Update();
+    void myupdate();
     void ChangeState();
 }
 

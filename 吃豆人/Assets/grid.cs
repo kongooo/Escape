@@ -5,11 +5,11 @@ using UnityEngine;
 public class grid : MonoBehaviour {
 
     public GameObject node;       //ai的路标
-
+   
     public Transform StartTransform;
     public Transform EndTransform;
 
-    public float NodeRadius=1f;        //节点半径
+    public float NodeRadius=0.01f;        //节点半径
 
     public LayerMask WallLayer;      //过滤墙体所在的层
 
@@ -45,6 +45,7 @@ public class grid : MonoBehaviour {
 
     //在Hierarchy中管理生成路标的物体
     private GameObject Path;
+   
 
     private List<GameObject> PathObject = new List<GameObject>();
 
@@ -54,16 +55,18 @@ public class grid : MonoBehaviour {
         h = Mathf.RoundToInt(transform.localScale.y * 31);   
         Grid = new NodeItem[w, h];                           //创建对应的节点二维数组
 
-        Debug.Log(w + " " + h);
+        
         Path = new GameObject("PathRange");
-
+        
         for(int x=2;x<w;x++)
             for(int y = 2; y < h; y++)
             {
                 Vector3 pos = new Vector3(x, y, 0);
+                bool isWall = false;
+                Collider2D collider = Physics2D.OverlapCircle(pos, NodeRadius, WallLayer);
+                if (collider != null)
+                    isWall = true;
                 
-                bool isWall = Physics.CheckSphere(pos, NodeRadius,WallLayer);
-                Debug.Log(isWall);
                 Grid[x, y] = new NodeItem(isWall, x, y, pos);      //构建节点
                 
             }
@@ -106,33 +109,28 @@ public class grid : MonoBehaviour {
     //更新路标
     public void upadatePath(List<NodeItem> path)
     {
-        path = new List<NodeItem>();
-        //得到新生成的路径的长度
-        int newpathlength = path.Count;
-        //当新生成的路径的长度大于场景中的路径路标的数量时       
-        if (newpathlength > PathObject.Count)
+
+        //得到场景中的路标的长度
+        int agolength = PathObject.Count;
+        //遍历新生成的路需要的节点
+        for (int i = 0, max = path.Count; i < max; i++)
         {
-            for(int i = PathObject.Count; i < newpathlength; i++)
+            //当节点序号小于路标物体的数量时，设置路标物体的位置并激活路标物体
+            if (i < agolength)
             {
-                //实例化多出来的数量的物体
-                GameObject newpathobj = Instantiate(node, path[i].pos, Quaternion.identity);
-                //方便在Hierarchy中管理
-                newpathobj.transform.SetParent(Path.transform);
-            }            
-        }
-        else
-        {
-            for(int i = 0; i < PathObject.Count; i++)
-            {
-                //激活场景中存在的未被激活的路标
-                PathObject[i].SetActive(true);
-                //更改场景中已经存在的路标的位置
                 PathObject[i].transform.position = path[i].pos;
+                PathObject[i].SetActive(true);
+            }
+            else   //实例化路标物体补充新生成的路
+            {
+                GameObject obj = GameObject.Instantiate(node, path[i].pos, Quaternion.identity) as GameObject;
+                obj.transform.SetParent(Path.transform);
+                PathObject.Add(obj);
             }
         }
-        for(int i = newpathlength; i < PathObject.Count; i++)
+        //把不需要的路标setfalse
+        for (int i = path.Count; i < PathObject.Count; i++)
         {
-            //使多余的路标不可见
             PathObject[i].SetActive(false);
         }
     }
