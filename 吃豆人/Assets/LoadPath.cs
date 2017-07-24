@@ -109,11 +109,7 @@ public class LoadPath : MonoBehaviour {
             //反转路径（之前是一条从结束节点到开始节点的路）
             path.Reverse();
         }
-        //foreach(var Temp in path)
-        //{
-        //    Debug.Log(Temp.pos);
-        //}
-        //更新路径
+        
         Grid.upadatePath(path);
     }
 

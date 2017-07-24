@@ -5,7 +5,7 @@ using UnityEngine;
 public class grid : MonoBehaviour {
 
     public GameObject node;       //ai的路标
-   
+    public GameObject blinky;
     public Transform StartTransform;
     public Transform EndTransform;
 
@@ -48,8 +48,8 @@ public class grid : MonoBehaviour {
    
 
     private List<GameObject> PathObject = new List<GameObject>();
-
-	void Awake ()
+    
+    void Awake ()
     {
         w = Mathf.RoundToInt(transform.localScale.x * 28);   
         h = Mathf.RoundToInt(transform.localScale.y * 31);   
@@ -126,13 +126,43 @@ public class grid : MonoBehaviour {
                 GameObject obj = GameObject.Instantiate(node, path[i].pos, Quaternion.identity) as GameObject;
                 obj.transform.SetParent(Path.transform);
                 PathObject.Add(obj);
+               
             }
         }
         //把不需要的路标setfalse
         for (int i = path.Count; i < PathObject.Count; i++)
         {
             PathObject[i].SetActive(false);
+            
         }
+        chase(blinky, PathObject,path.Count);
+    }
+
+    public void chase(GameObject AI,List<GameObject>paths,int length)
+    {
+        Vector3[] pathpos=new Vector3[paths.Count];
+        int currentpoint = 0;
+        for(int i = 0; i < length; i++)
+        {
+            pathpos[i] = paths[i].transform.position;
+        }
+        Vector3 AIpos = AI.GetComponent<Transform>().position;
+        if (AIpos != pathpos[currentpoint])
+        {
+            Vector2 p = Vector2.MoveTowards(AIpos, pathpos[currentpoint], 0.1f);
+
+            AI.GetComponent<Rigidbody2D>().MovePosition(p);
+
+        }
+        else
+            currentpoint = (currentpoint + 1) %pathpos.Length;
+
+        //动画判断
+        Vector3 dir = pathpos[currentpoint] - AIpos;
+
+        //AI.GetComponent<Animator>().SetFloat("DirX", dir.x);//不存在？？
+
+        AI.GetComponent<Animator>().SetFloat("DirY", dir.y);
     }
     
 	

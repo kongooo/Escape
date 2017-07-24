@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Controller.cs" />
     <Compile Include="Assets\grid.cs" />
     <Compile Include="Assets\LoadPath.cs" />
     <Compile Include="Assets\manage.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Assets\Scripts\GhostMove.cs" />
     <Compile Include="Assets\Scripts\Pacdot.cs" />
     <Compile Include="Assets\Scripts\PacmanMove.cs" />
+    <Compile Include="Assets\zhuangtaiji.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
