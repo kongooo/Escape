@@ -7,6 +7,8 @@ public class CameraManager : MonoBehaviour {
     private float change;
     Vector3 pos;        
     float nowPos;
+    float right=21f;
+    float left=-21f;
 
     void Start ()
     {
@@ -18,9 +20,9 @@ public class CameraManager : MonoBehaviour {
        nowPos = transform.position.x;   //记录当前位置
         change = Input.GetAxisRaw("Horizontal") * 0.15f;   //记录输入值
                
-        if (nowPos == 7.3f || nowPos == -7)   //到达边界时进行判断
+        if (nowPos == right || nowPos == left)   //到达边界时进行判断
         {
-            if (nowPos == 7.3f && change > 0)
+            if (nowPos == right && change > 0)
             {
                 change = 0;
             }
@@ -28,7 +30,7 @@ public class CameraManager : MonoBehaviour {
             {
                 change = Input.GetAxisRaw("Horizontal") * 0.1f;
             }
-            if (nowPos == -7 && change < 0)
+            if (nowPos == left && change < 0)
             {
                 change = 0;
             }
@@ -41,7 +43,7 @@ public class CameraManager : MonoBehaviour {
         pos.x += change;                          //改变相机x轴坐标
         transform.position = pos;
         transform.position = new Vector3(                      //限制相机位置
-            Mathf.Clamp(transform.position.x, -7f, 7.3f),
+            Mathf.Clamp(transform.position.x,left, right),
             0.0f,
             -10
             );

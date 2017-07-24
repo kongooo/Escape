@@ -24,7 +24,7 @@ public class SetPos : MonoBehaviour {
         //获得可使用的相机的Transform
         camera = ClickManager._Instance.FindEnableCamera(Camera.allCameras).transform;
         transform.SetParent(camera.transform);
-        transform.localPosition = new Vector3(7f, -3.2f, 10);
+        transform.localPosition = new Vector3(13.8f, -7.3f, 10);
     }
    
 }

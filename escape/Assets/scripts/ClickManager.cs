@@ -67,7 +67,7 @@ public class ClickManager : MonoBehaviour {
         {
             cameras[i].gameObject.SetActive(false);
         }
-       
+        
         nextBox.SetActive(false);
         //CameraActive(cameras[0], isActive[0]);
         //CameraNoActive(cameras[1], isActive[1]);
@@ -91,8 +91,8 @@ public class ClickManager : MonoBehaviour {
             {
                 Transform door = GameObject.Find("rockdoor").transform;
                 float y = door.position.y;
-                GameObject.Find("rockdoor").transform.position = new Vector3(door.position.x, y + Time.deltaTime, door.position.z);
-                if (y > 6)
+                GameObject.Find("rockdoor").transform.position = new Vector3(door.position.x, y + Time.deltaTime*2f, door.position.z);
+                if (y > 12)
                 {
                     GameManager._Instance.ten = 10;
                     doorMove = false;
@@ -119,7 +119,7 @@ public class ClickManager : MonoBehaviour {
             {
                 case "背包":        //背包画布不可见
                    
-                    canves.GetComponent<Canvas>().planeDistance = 100;
+                    canves.GetComponent<Canvas>().planeDistance = 60;
                     GameManager._Instance.one = 0;
                     GameManager._Instance.four = 0;
                     GameManager._Instance.five = 0;
@@ -141,6 +141,7 @@ public class ClickManager : MonoBehaviour {
                             Destroy(OnclickObj.transform.GetChild(0).gameObject);
                         ItemModel.DeleteItem(GridName);
                         GameManager._Instance.one = 0;
+                        GameObject.Find("HuoPen").GetComponent<BoxCollider>().enabled = false;
                     }
                     
                     break;
@@ -154,6 +155,7 @@ public class ClickManager : MonoBehaviour {
                     break;
                 case "ranhuoba(Clone)":                   
                     storeItemToPackage(5, hit.collider.gameObject);
+                    
                     break;
                 case "FireOnWall":                //点燃墙上的火把
                     if (GameManager._Instance.two == 2)
@@ -170,18 +172,25 @@ public class ClickManager : MonoBehaviour {
                         GameObject.Find("Room1(Clone)").SetActive(false);
 
                         Instantiate(Room2, new Vector3(0.1f, 0, 0), Quaternion.identity);
+                        GameObject.Find("buoluohou").GetComponent<BoxCollider>().enabled = false;
                         
                         Fire.Play();
                     }
                   
                     break;
-                case "youdeng":                    
-                    storeItemToPackage(9, hit.collider.gameObject);//点击一次后禁用自身collider
+                case "youdeng":
+                    AttainItem.Play();
+                    BackpackManager._instance.storeItem(9);//点击一次后禁用自身collider
                     GameObject.Find("youdeng").GetComponent<BoxCollider>().enabled = false;
                     break;
                 case "buoluo":
+                    Destroy(hit.collider.gameObject);
+                    GameObject.Find("buoluohou").GetComponent<BoxCollider>().enabled = true;
+                    break;
+                case "buoluohou":
                     SetEnableCamera(cameras, 2);
                     break;
+                    
                
                 case "guizi":
                     Open.Play();
@@ -232,9 +241,7 @@ public class ClickManager : MonoBehaviour {
                         GameManager._Instance.five = 0;
                     }
                     break;
-                case "墙体剥落后图片":
-                    Destroy(GameObject.Find("墙体剥落后图片"));
-                    break;
+                
                 case "FireWall(Clone)":
                     storeItemToPackage(7, hit.collider.gameObject);
                     break;
@@ -297,7 +304,7 @@ public class ClickManager : MonoBehaviour {
                             float x = hit.collider.transform.position.x;
                             float y = hit.collider.transform.position.y;
                             float z = hit.collider.transform.position.z;
-                            Instantiate(GoOut, new Vector3(x + 3, y, z), Quaternion.identity);
+                            Instantiate(GoOut, new Vector3(x + 6, y, z), Quaternion.identity);
                             GameManager._Instance.firstEnd = true;  //得到第一个结局  第二个结局不可实施  
                         }
                     }
@@ -306,7 +313,7 @@ public class ClickManager : MonoBehaviour {
                 case "desk":
                     SetEnableCamera(cameras, 5);
                     break;
-                case "出口(Clone)":
+                case "out(Clone)":
                     if (GameManager._Instance.ten == 10)
                     {
                         SetEnableCamera(cameras, 6);

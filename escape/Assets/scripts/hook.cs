@@ -33,8 +33,10 @@ public class hook : MonoBehaviour {
                 ismove = false;
             }
         }
-       
-
+        transform.localPosition = new Vector3(
+            Mathf.Clamp(transform.localPosition.x, -4.9f, 4.3f),
+            transform.localPosition.y,
+            transform.localPosition.z);
 	}
 
     private IEnumerator OnMouseDown()
@@ -48,8 +50,10 @@ public class hook : MonoBehaviour {
         {
             //得到现在鼠标的三维屏幕坐标
             Vector3 curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
+            Vector3 newpos = CabinetCamera.ScreenToWorldPoint(curScreenSpace) + offset;
+            float xnow = newpos.x;
             //将当前鼠标的屏幕坐标转换成世界坐标，再加上点击前鼠标和物体的世界坐标的差
-            Vector3 curPosition = CabinetCamera.ScreenToWorldPoint(curScreenSpace) + offset;
+            Vector3 curPosition = new Vector3(xnow, transform.position.y, transform.position.z);
             
             transform.position = curPosition;
             yield return new WaitForFixedUpdate(); //循环执行
